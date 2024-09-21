@@ -4,14 +4,21 @@ import argparse
 import pandas as pd
 from tqdm import tqdm
 import os
+from huggingface_hub import login
+
+
+save_dir = "saved_tensors"
+os.makedirs(save_dir, exist_ok=True)
+# Login to Hugging Face Hub
+login(token="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")
 
 class Hook:
     def __init__(self):
         self.out = None
+        self.attn = None  # Add this line to store attention weights
 
     def __call__(self, module, module_inputs, module_outputs):
-        self.out, _ = module_outputs
-
+        self.out, self.attn = module_outputs  # Modify this line to unpack attention weights
 
 def load_llama(model_name, device):
     tokenizer = AutoTokenizer.from_pretrained("meta-llama/Meta-Llama-3-8B")
@@ -24,7 +31,7 @@ def load_statements(dataset_name):
     Load statements from csv file, return list of strings.
     """
     dataset = pd.read_csv(f"datasets/{dataset_name}.csv")
-    statements = dataset['statement'].tolist()
+    statements = dataset.iloc[:, 0].tolist()
     return statements
 
 def get_acts(statements, tokenizer, model, layers, device):

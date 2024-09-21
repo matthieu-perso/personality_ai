@@ -13,6 +13,9 @@ names_genders = [
     ("Mark", "Male"), ("Sandra", "Female")
 ]
 
+
+
+
 countries = [
     "the United States", "Canada", "the United Kingdom", "Australia", "Germany", 
     "France", "Japan", "China", "India", "Brazil"
@@ -42,34 +45,34 @@ personalities = [f"{op}, {con}, {ext}, {agr}, {neu}" for op in big_five_personal
                  for agr in big_five_personalities["Agreeableness"]
                  for neu in big_five_personalities["Neuroticism"]]
 
-scenarios = [
-    "encounters a friend:",
-    "goes to work:",
-    "attends a meeting:",
-    "visits a new city:",
-    "goes shopping:",
-    "attends a concert:",
-    "goes to a party:",
-    "takes a walk in the park:",
-    "goes to the gym:",
-    "visits a museum:",
-    "goes to a restaurant:",
-    "travels by plane:",
-    "attends a workshop:",
-    "goes to a festival:",
-    "goes to a nightclub:",
-    "visits a farm:",
-    "goes to a zoo:",
-    "goes to a theme park:",
-    "attends a religious service:",
-    "thinks about her future:",
-    "shares her opinion on politics:",
-    "discusses her favorite books:",
-    "talks about her favorite movies:",
-    "shares her thoughts on climate change:",
-    "expresses her taste in music:",
-    "talks about her favorite hobbies:"
-]
+# scenarios = [
+#     "encounters a friend:",
+#     "goes to work:",
+#     "attends a meeting:",
+#     "visits a new city:",
+#     "goes shopping:",
+#     "attends a concert:",
+#     "goes to a party:",
+#     "takes a walk in the park:",
+#     "goes to the gym:",
+#     "visits a museum:",
+#     "goes to a restaurant:",
+#     "travels by plane:",
+#     "attends a workshop:",
+#     "goes to a festival:",
+#     "goes to a nightclub:",
+#     "visits a farm:",
+#     "goes to a zoo:",
+#     "goes to a theme park:",
+#     "attends a religious service:",
+#     "thinks about her future:",
+#     "shares her opinion on politics:",
+#     "discusses her favorite books:",
+#     "talks about her favorite movies:",
+#     "shares her thoughts on climate change:",
+#     "expresses her taste in music:",
+#     "talks about her favorite hobbies:"
+# ]
 
 def generate_character_description(scenario):
     name, gender = random.choice(names_genders)
@@ -79,10 +82,40 @@ def generate_character_description(scenario):
     personality = random.choice(personalities)
 
     pronoun = "They" if gender == "Unknown" else "He" if gender == "Male" else "She"
-    description = f"{name} is a {age}-year-old {gender.lower()} from {country}. {pronoun} works as a {occupation} and is {personality}. "\
+    description = f"{name} is a {age}-year-old {gender.lower()} from {country}. {pronoun} works as a {occupation.lower()} and is {personality}. "\
                   f"{name} now {scenario.lower()}"
 
     return description
+
+class SituationCausality:
+    def __init__(self, name, gender, country, age, occupation, personality):
+        self.name = name
+        self.gender = gender
+        self.country = country
+        self.age = age
+        self.occupation = occupation
+        self.personality = personality
+        self.pronoun = "They" if gender == "Unknown" else "He" if gender == "Male" else "She"
+
+    def generate_scenario_descriptions(self):
+        descriptions = []
+        for scenario in scenarios:
+            description = f"{self.name} is a {self.age}-year-old {self.gender.lower()} from {self.country}. {self.pronoun} works as a {self.occupation.lower()} and is {self.personality}. "\
+                          f"{self.name} now {scenario.lower()}"
+            descriptions.append(description)
+        return descriptions
+
+def generate_character_with_scenarios():
+    name, gender = random.choice(names_genders)
+    country = random.choice(countries)
+    age = random.randint(18, 70)
+    occupation = random.choice(occupations)
+    personality = random.choice(personalities)
+
+    character = SituationCausality(name, gender, country, age, occupation, personality)
+    return character.generate_scenario_descriptions()
+
+
 
 
 if __name__ == "__main__":

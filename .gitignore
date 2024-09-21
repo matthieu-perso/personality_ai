@@ -3,6 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+acts
+datasets
+outputs
+saved_tensors
+
 data
 # C extensions
 *.so
